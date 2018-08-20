@@ -4,24 +4,24 @@ namespace MusicViewer
 {
     internal class Track
     {
-        private DateTime dateTime;
+        private DateTime dateRealese;
         private string genre;
         private readonly int id;
         private string length;
         private string name;
 
-        public Track(string name, DateTime dateTime, string genre, string length, int id)
+        public Track(string name, DateTime dateRealese, string genre, string length, int id)
         {
             this.id = id;
             this.name = name;
-            this.dateTime = dateTime;
+            this.dateRealese = dateRealese;
             this.genre = genre;
             this.length = length;
         }
 
-        public DateTime Date
+        public DateTime DateRealese
         {
-            get { return dateTime; }
+            get { return dateRealese; }
         }
 
         public string Genre
