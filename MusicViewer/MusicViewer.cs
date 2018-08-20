@@ -156,7 +156,7 @@ namespace MusicViewer
                 trackLength = track.Attributes["length"].Value;
 
                 trackDateInString = track.Attributes["released"].Value;
-                List<string> dayMounthYear = new List<string>();
+                List<string> dayMonthYear = new List<string>();
                 StringBuilder currentDatePart = new StringBuilder();
                 for (int characterNumber = 0; characterNumber < trackDateInString.Length; characterNumber++)
                 {
@@ -166,12 +166,12 @@ namespace MusicViewer
                     }
                     else
                     {
-                        dayMounthYear.Add(currentDatePart.ToString());
+                        dayMonthYear.Add(currentDatePart.ToString());
                         currentDatePart.Clear();
                     }
                 }
-                        dayMounthYear.Add(currentDatePart.ToString());
-                trackDate = new DateTime(int.Parse(dayMounthYear[2]), int.Parse(dayMounthYear[1]), int.Parse(dayMounthYear[0]));
+                        dayMonthYear.Add(currentDatePart.ToString());
+                trackDate = new DateTime(int.Parse(dayMonthYear[2]), int.Parse(dayMonthYear[1]), int.Parse(dayMonthYear[0]));
 
                 trackGenre = "";
                 trackGenres.Clear();
