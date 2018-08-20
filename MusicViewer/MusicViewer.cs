@@ -9,7 +9,7 @@ namespace MusicViewer
     public partial class MusicViewer : Form
     {
         private Album currentAlbum;
-        private IEnumerable<Album> albums;
+        private List<Album> albums;
         private DateTime pastMaximumPick;
         private DateTime pastMinimumPick; 
         private string xmlFilePath;
@@ -83,9 +83,9 @@ namespace MusicViewer
                 if (tracksListBox.SelectedItem.ToString() == currentAlbum[i].Name)
                 {
                     albumDataLabel.Text = currentAlbum.Name;
-                    realeseDataLabel.Text = currentAlbum[i].Date.Day.ToString() + " ";
-                    realeseDataLabel.Text += currentAlbum[i].Date.Month.ToString() + ", ";
-                    realeseDataLabel.Text += currentAlbum[i].Date.Year.ToString();
+                    realeseDataLabel.Text = currentAlbum[i].DateRealese.Day.ToString() + " ";
+                    realeseDataLabel.Text += currentAlbum[i].DateRealese.Month.ToString() + ", ";
+                    realeseDataLabel.Text += currentAlbum[i].DateRealese.Year.ToString();
                     lengthDataLabel.Text = currentAlbum[i].Length;
                     genreDataLabel.Text = currentAlbum[i].Genre;
                     break;
@@ -98,7 +98,7 @@ namespace MusicViewer
             tracksListBox.Items.Clear();
             for (int i = 0; i < currentAlbum.CountOfTracks; i++)
             {
-                if (currentAlbum[i].Date >= MinimumDatePicker.Value && currentAlbum[i].Date <= MaximumDatePicker.Value)
+                if (currentAlbum[i].DateRealese >= MinimumDatePicker.Value && currentAlbum[i].DateRealese <= MaximumDatePicker.Value)
                 {
                     tracksListBox.Items.Add(currentAlbum[i].Name);
                 }
@@ -170,17 +170,20 @@ namespace MusicViewer
                         currentDatePart.Clear();
                     }
                 }
-                        dayMonthYear.Add(currentDatePart.ToString());
+
+                dayMonthYear.Add(currentDatePart.ToString());
                 trackDate = new DateTime(int.Parse(dayMonthYear[2]), int.Parse(dayMonthYear[1]), int.Parse(dayMonthYear[0]));
 
                 trackGenre = "";
                 trackGenres.Clear();
                 var tracksGenreNode = track.FirstChild;
+
                 foreach (XmlNode trackGenreNode in tracksGenreNode)
                 {
                     int trackGenreId = int.Parse(trackGenreNode.Attributes["genre-id"].Value);
                     trackGenres.Add(genres[trackGenreId]);
                 }
+
                 trackGenres.Sort();
 
                 foreach (string currrentTrackGenre in trackGenres)
