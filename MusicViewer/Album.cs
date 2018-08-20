@@ -44,9 +44,9 @@ namespace MusicViewer
             get { return name; }
         }
 
-        public void Add(string albumName, DateTime calendarDay, string genre, string length, int id)
+        public void Add(string name, DateTime calendarDay, string genre, string length, int id)
         {
-            music.Add(new Track(albumName, calendarDay, genre, length, id));
+            music.Add(new Track(name, calendarDay, genre, length, id));
         }
 
         public override string ToString()
