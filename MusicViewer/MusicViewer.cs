@@ -9,7 +9,7 @@ namespace MusicViewer
     public partial class MusicViewer : Form
     {
         private Album currentAlbum;
-        private List<Album> albums;
+        private IEnumerable<Album> albums;
         private DateTime pastMaximumPick;
         private DateTime pastMinimumPick; 
         private string xmlFilePath;
