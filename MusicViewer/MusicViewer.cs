@@ -42,7 +42,7 @@ namespace MusicViewer
             {
                 xmlFilePath = openFileDialog.FileName;
                 timer.Start();
-                if(xmlFilePath != null || xmlFilePath != "")
+                if (xmlFilePath != null || xmlFilePath != "")
                 {
                     LoadXmlFile();
                 }
