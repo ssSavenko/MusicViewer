@@ -6,12 +6,12 @@ namespace MusicViewer
     internal class Album
     {
         private readonly int id;
-        private List<Track> musicList;
+        private List<Track> music;
         private string name;
 
         public Album(string name, int id)
         {
-            musicList = new List<Track>();
+            music = new List<Track>();
             this.name = name;
             this.id = id;
         }
@@ -20,18 +20,18 @@ namespace MusicViewer
         {
             get
             {
-                Track returnMusic = null;
-                if (i < musicList.Count)
+                Track selectedMusic = null;
+                if (i < music.Count)
                 {
-                    returnMusic = musicList[i];
+                    selectedMusic = music[i];
                 }
-                return returnMusic;
+                return selectedMusic;
             }
         }
 
         public int CountOfTracks
         {
-            get { return musicList.Count; }
+            get { return music.Count; }
         }
 
         public int Id
@@ -46,7 +46,7 @@ namespace MusicViewer
 
         public void Add(string albumName, DateTime calendarDay, string genre, string length, int id)
         {
-            musicList.Add(new Track(albumName, calendarDay, genre, length, id));
+            music.Add(new Track(albumName, calendarDay, genre, length, id));
         }
 
         public override string ToString()

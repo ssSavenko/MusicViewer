@@ -8,15 +8,20 @@ namespace MusicViewer
         private string genre;
         private readonly int id;
         private string length;
-        private string trackName;
+        private string name;
 
-        public Track(string trackName, DateTime dateTime, string genre, string length, int id)
+        public Track(string name, DateTime dateTime, string genre, string length, int id)
         {
             this.id = id;
-            this.trackName = trackName;
+            this.name = name;
             this.dateTime = dateTime;
             this.genre = genre;
             this.length = length;
+        }
+
+        public DateTime Date
+        {
+            get { return dateTime; }
         }
 
         public string Genre
@@ -29,14 +34,9 @@ namespace MusicViewer
             get { return length; }
         }
 
-        public DateTime TrackDateTime
+        public string Name
         {
-            get { return dateTime; }
-        }
-
-        public string TrackName
-        {
-            get { return trackName; }
+            get { return name; }
         }
     }
 }
