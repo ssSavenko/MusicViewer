@@ -8,7 +8,7 @@ namespace MusicViewer
 {
     public partial class MusicViewer : Form
     {
-        private Album currentAlbum = null;
+        private Album currentAlbum;
         private List<Album> albums;
         private DateTime pastMaximumPick;
         private DateTime pastMinimumPick; 
