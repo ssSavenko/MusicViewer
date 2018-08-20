@@ -23,18 +23,6 @@ namespace MusicViewer
             pastMaximumPick = MaximumDatePicker.Value;
         }
 
-        private void AddTracksByDate()
-        {
-            tracksListBox.Items.Clear();
-            for (int i = 0; i < currentAlbum.CountOfTracks; i++)
-            {
-                if (currentAlbum[i].TrackDateTime >= MinimumDatePicker.Value && currentAlbum[i].TrackDateTime <= MaximumDatePicker.Value)
-                {
-                    tracksListBox.Items.Add(currentAlbum[i].TrackName);
-                }
-            }
-        }
-
         private void AlbumsComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             for (int i = 0; i < listOfAlbums.Count; i++)
@@ -60,6 +48,34 @@ namespace MusicViewer
                 }
             }
         }
+
+        private void MaximumDatePicker_ValueChanged(object sender, EventArgs e)
+        {
+            if (MaximumDatePicker.Value < MinimumDatePicker.Value || MaximumDatePicker.Value > DateTime.Today)
+            {
+                MaximumDatePicker.Value = pastMaximumPick;
+            }
+            else
+            {
+                pastMaximumPick = MaximumDatePicker.Value;
+            }
+            AddTracksByDate();
+        }
+
+        private void MinimumDatePicker_ValueChanged(object sender, EventArgs e)
+        {
+            if (MaximumDatePicker.Value < MinimumDatePicker.Value || MinimumDatePicker.Value > DateTime.Today)
+            {
+                MinimumDatePicker.Value = pastMinimumPick;
+            }
+            else
+            {
+                pastMinimumPick = MinimumDatePicker.Value;
+                AddTracksByDate();
+            }
+            AddTracksByDate();
+        }
+
         private void TracksListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             for (int i = 0; i < currentAlbum.CountOfTracks; i++)
@@ -73,6 +89,18 @@ namespace MusicViewer
                     lengthDataLabel.Text = currentAlbum[i].Length;
                     genreDataLabel.Text = currentAlbum[i].Genre;
                     break;
+                }
+            }
+        }
+
+        private void AddTracksByDate()
+        {
+            tracksListBox.Items.Clear();
+            for (int i = 0; i < currentAlbum.CountOfTracks; i++)
+            {
+                if (currentAlbum[i].TrackDateTime >= MinimumDatePicker.Value && currentAlbum[i].TrackDateTime <= MaximumDatePicker.Value)
+                {
+                    tracksListBox.Items.Add(currentAlbum[i].TrackName);
                 }
             }
         }
@@ -176,33 +204,6 @@ namespace MusicViewer
             {
                 albumsComboBox.Items.Add(album);
             }
-        }
-
-        private void MaximumDatePicker_ValueChanged(object sender, EventArgs e)
-        {
-            if (MaximumDatePicker.Value < MinimumDatePicker.Value || MaximumDatePicker.Value > DateTime.Today)
-            {
-                MaximumDatePicker.Value = pastMaximumPick;
-            }
-            else
-            {
-                pastMaximumPick = MaximumDatePicker.Value;
-            }
-            AddTracksByDate();
-        }
-
-        private void MinimumDatePicker_ValueChanged(object sender, EventArgs e)
-        {
-            if (MaximumDatePicker.Value < MinimumDatePicker.Value || MinimumDatePicker.Value > DateTime.Today)
-            {
-                MinimumDatePicker.Value = pastMinimumPick;
-            }
-            else
-            {
-                pastMinimumPick = MinimumDatePicker.Value;
-                AddTracksByDate();
-            }
-            AddTracksByDate();
         }
     }
 }

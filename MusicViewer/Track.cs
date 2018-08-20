@@ -4,11 +4,11 @@ namespace MusicViewer
 {
     internal class Track
     {
-        private readonly int id;
-        private string trackName;
-        private string genre;
-        private string length;
         private DateTime dateTime;
+        private string genre;
+        private readonly int id;
+        private string length;
+        private string trackName;
 
         public Track(string trackName, DateTime dateTime, string genre, string length, int id)
         {
