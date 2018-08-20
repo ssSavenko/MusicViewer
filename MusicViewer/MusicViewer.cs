@@ -11,7 +11,7 @@ namespace MusicViewer
         private Album currentAlbum;
         private List<Album> albums;
         private DateTime pastMaximumPick;
-        private DateTime pastMinimumPick; 
+        private DateTime pastMinimumPick;
         private string xmlFilePath;
 
         public MusicViewer()
@@ -111,17 +111,17 @@ namespace MusicViewer
             albumsComboBox.Items.Clear();
             var document = new XmlDocument();
             document.Load(xmlFilePath);
-            
+
             XmlNode albumsNode = document.DocumentElement.FirstChild;
             XmlNode artistsNode = albumsNode.NextSibling;
             XmlNode genresNode = artistsNode.NextSibling;
             XmlNode tracksNode = genresNode.NextSibling;
-            
+
             Dictionary<int, string> genres = new Dictionary<int, string>();
 
             string albumName;
             int albumId;
-            
+
             foreach (XmlNode album in albumsNode)
             {
                 albumName = album.Attributes["name"].Value;
@@ -195,11 +195,11 @@ namespace MusicViewer
                     trackGenre += currrentTrackGenre;
                 }
 
-                for(int i =0; i < albums.Count; i++)
+                for (int i = 0; i < albums.Count; i++)
                 {
                     if (albums[i].Id == trackAlnumId)
                     {
-                        albums[i].Add(trackName, trackDate,trackGenre, trackLength, trackId);
+                        albums[i].Add(trackName, trackDate, trackGenre, trackLength, trackId);
                     }
                 }
             }
