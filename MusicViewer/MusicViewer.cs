@@ -9,7 +9,7 @@ namespace MusicViewer
     public partial class MusicViewer : Form
     {
         private Album currentAlbum;
-        private List<Album> albums;
+        private ICollection<Album> albums;
         private DateTime pastMaximumPick;
         private DateTime pastMinimumPick;
         private string xmlFilePath;
@@ -25,11 +25,11 @@ namespace MusicViewer
 
         private void AlbumsComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            for (int i = 0; i < albums.Count; i++)
+            foreach (Album album in albums)
             {
-                if (albumsComboBox.SelectedItem.ToString() == albums[i].ToString())
+                if (albumsComboBox.SelectedItem.ToString() == album.ToString())
                 {
-                    currentAlbum = albums[i];
+                    currentAlbum = album;
                     break;
                 }
             }
@@ -78,17 +78,20 @@ namespace MusicViewer
 
         private void TracksListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            for (int i = 0; i < currentAlbum.CountOfTracks; i++)
+            if (tracksListBox.SelectedItem != null)
             {
-                if (tracksListBox.SelectedItem.ToString() == currentAlbum[i].Name)
+                for (int i = 0; i < currentAlbum.CountOfTracks; i++)
                 {
-                    albumDataLabel.Text = currentAlbum.Name;
-                    realeseDataLabel.Text = currentAlbum[i].DateRealese.Day.ToString() + " ";
-                    realeseDataLabel.Text += currentAlbum[i].DateRealese.Month.ToString() + ", ";
-                    realeseDataLabel.Text += currentAlbum[i].DateRealese.Year.ToString();
-                    lengthDataLabel.Text = currentAlbum[i].Length;
-                    genreDataLabel.Text = currentAlbum[i].Genre;
-                    break;
+                    if (tracksListBox.SelectedItem.ToString() == currentAlbum[i].Name)
+                    {
+                        albumDataLabel.Text = currentAlbum.Name;
+                        realeseDataLabel.Text = currentAlbum[i].DateRealese.Day.ToString() + " ";
+                        realeseDataLabel.Text += currentAlbum[i].DateRealese.Month.ToString() + ", ";
+                        realeseDataLabel.Text += currentAlbum[i].DateRealese.Year.ToString();
+                        lengthDataLabel.Text = currentAlbum[i].Length;
+                        genreDataLabel.Text = currentAlbum[i].Genre;
+                        break;
+                    }
                 }
             }
         }
@@ -117,17 +120,14 @@ namespace MusicViewer
             XmlNode genresNode = artistsNode.NextSibling;
             XmlNode tracksNode = genresNode.NextSibling;
 
+            SaveAlbums(albumsNode);
+            Dictionary<int, string> genres = ReadGenres(genresNode);
+            SaveTracks(tracksNode, genres);
+        }
+
+        private Dictionary<int, string> ReadGenres(XmlNode genresNode)
+        {
             Dictionary<int, string> genres = new Dictionary<int, string>();
-
-            string albumName;
-            int albumId;
-
-            foreach (XmlNode album in albumsNode)
-            {
-                albumName = album.Attributes["name"].Value;
-                albumId = int.Parse(album.Attributes["id"].Value);
-                albums.Add(new Album(albumName, albumId));
-            }
 
             string genreName;
             int genreId;
@@ -138,9 +138,31 @@ namespace MusicViewer
                 genreId = int.Parse(genre.Attributes["id"].Value);
                 genres.Add(genreId, genreName);
             }
+            return genres;
+        }
 
+        private void SaveAlbums(XmlNode albumsNode)
+        {
+            string albumName;
+            int albumId;
+
+            foreach (XmlNode album in albumsNode)
+            {
+                albumName = album.Attributes["name"].Value;
+                albumId = int.Parse(album.Attributes["id"].Value);
+                albums.Add(new Album(albumName, albumId));
+            }
+
+            foreach (Album album in albums)
+            {
+                albumsComboBox.Items.Add(album);
+            }
+        }
+
+        private void SaveTracks(XmlNode tracksNode, Dictionary<int, string> genres)
+        {
             int trackId;
-            int trackAlnumId;
+            int trackAlbumId;
             DateTime trackDate;
             string trackDateInString;
             string trackName;
@@ -152,7 +174,7 @@ namespace MusicViewer
             {
                 trackName = track.Attributes["name"].Value;
                 trackId = int.Parse(track.Attributes["id"].Value);
-                trackAlnumId = int.Parse(track.Attributes["album-id"].Value);
+                trackAlbumId = int.Parse(track.Attributes["album-id"].Value);
                 trackLength = track.Attributes["length"].Value;
 
                 trackDateInString = track.Attributes["released"].Value;
@@ -195,18 +217,13 @@ namespace MusicViewer
                     trackGenre += currrentTrackGenre;
                 }
 
-                for (int i = 0; i < albums.Count; i++)
+                foreach (Album album in albums)
                 {
-                    if (albums[i].Id == trackAlnumId)
+                    if (album.Id == trackAlbumId)
                     {
-                        albums[i].Add(trackName, trackDate, trackGenre, trackLength, trackId);
+                        album.Add(trackName, trackDate, trackGenre, trackLength, trackId);
                     }
                 }
-            }
-
-            foreach (Album album in albums)
-            {
-                albumsComboBox.Items.Add(album);
             }
         }
     }
